@@ -110,7 +110,7 @@
     
     <section id="rsvp">
         <h2>Подтвердите участие</h2>
-        <form action="https://formspree.io/f/xgvaljwr" method="POST">
+        <form id="rsvp-form" action="https://formspree.io/f/xgvaljwr" method="POST">
             <input type="text" name="name" placeholder="Ваше имя" required>
             <input type="number" name="guests" placeholder="Количество гостей" required>
             <input type="tel" name="phone" placeholder="Ваш номер телефона (пример: +7XXXXXXXXXX)" pattern="\+7[0-9]{10}" required>
@@ -122,8 +122,14 @@
     <script>
         document.getElementById('rsvp-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            document.getElementById('response-message').textContent = 'Спасибо за подтверждение!';
-            this.reset();
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this)
+            }).then(response => response.text())
+              .then(data => {
+                  document.getElementById('response-message').textContent = 'Спасибо за подтверждение!';
+                  this.reset();
+              });
         });
         
         document.addEventListener("DOMContentLoaded", function() {
