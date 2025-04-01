@@ -122,18 +122,16 @@
     <script>
         document.getElementById('rsvp-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const form = this;
-            fetch(form.action, {
+            fetch(this.action, {
                 method: 'POST',
-                body: new FormData(form)
+                body: new FormData(this)
             }).then(response => response.text())
               .then(data => {
                   document.getElementById('response-message').textContent = 'Спасибо за подтверждение!';
-                  form.style.display = 'none'; // Скрываем форму
-              }).catch(error => {
-                  document.getElementById('response-message').textContent = 'Ошибка отправки. Попробуйте позже.';
+                  this.reset();
               });
         });
+
         
         document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll("section");
