@@ -122,13 +122,16 @@
     <script>
         document.getElementById('rsvp-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            fetch(this.action, {
+            const form = this;
+            fetch(form.action, {
                 method: 'POST',
-                body: new FormData(this)
+                body: new FormData(form)
             }).then(response => response.text())
               .then(data => {
                   document.getElementById('response-message').textContent = 'Спасибо за подтверждение!';
-                  this.reset();
+                  form.style.display = 'none'; // Скрываем форму
+              }).catch(error => {
+                  document.getElementById('response-message').textContent = 'Ошибка отправки. Попробуйте позже.';
               });
         });
         
